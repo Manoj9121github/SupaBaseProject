@@ -19,24 +19,41 @@ export default function UserPage() {
   const [isLoading, setIsLoading] = useState(true); // loader state
   const { cart, addToCart, updateQuantity } = useCart();
 
-  useEffect(() => {
-    async function fetchProducts() {
-      setIsLoading(true); // start loader
-      const { data, error } = await supabase.from('products').select('*');
-      if (!error && data) {
-        const prods = (data as unknown[]).map(p => ({
-          id: p.id,
-          name: p.name,
-          price: p.price,
-          stock: p.quantity,
-          image: p.image,
-        }));
-        setProducts(prods);
-      }
-      setIsLoading(false); // stop loader
+ useEffect(() => {
+  async function fetchProducts() {
+    setIsLoading(true); // start loader
+    const { data, error } = await supabase.from('products').select('*');
+
+    if (!error && data) {
+      // 1️⃣ Tell TypeScript what your DB rows look like
+      type DBProduct = {
+        id: number;
+        name: string;
+        price: number;
+        quantity: number;
+        image: string;
+      };
+
+      // 2️⃣ Cast data to DBProduct[]
+      const prods = (data as DBProduct[]).map((p) => ({
+        id: p.id,
+        name: p.name,
+        price: p.price,
+        stock: p.quantity, // renamed in frontend
+        image: p.image,
+      }));
+
+      setProducts(prods);
+    } else {
+      console.error(error);
     }
-    fetchProducts();
-  }, []);
+
+    setIsLoading(false); // stop loader
+  }
+
+  fetchProducts();
+}, []);
+
 
   if (isLoading) {
     return (
