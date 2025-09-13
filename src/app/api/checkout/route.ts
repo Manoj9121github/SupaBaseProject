@@ -10,18 +10,25 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Cart is empty' }, { status: 400 });
     }
 
-    const subtotal = cart.reduce((acc, item) => acc + item.price * item.selectedQty, 0);
+    // 👇 Fix types here
+    const subtotal = cart.reduce(
+      (acc: number, item: { price: number; selectedQty: number }) =>
+        acc + item.price * item.selectedQty,
+      0
+    );
 
     // 1️⃣ Insert into orders
     const { data: orderData, error: orderError } = await supabase
       .from('orders')
-      .insert([{
-        customer_id: customerId || null,
-        order_date: new Date().toISOString(),
-        status: 'pending',
-        total_price: subtotal,
-        tax_amount: taxAmount || 0
-      }])
+      .insert([
+        {
+          customer_id: customerId || null,
+          order_date: new Date().toISOString(),
+          status: 'pending',
+          total_price: subtotal,
+          tax_amount: taxAmount || 0,
+        },
+      ])
       .select()
       .single();
 
@@ -30,12 +37,12 @@ export async function POST(req: NextRequest) {
     const orderId = orderData.id;
 
     // 2️⃣ Insert into order_items
-    const orderItems = cart.map(item => ({
+    const orderItems = cart.map((item: any) => ({
       order_id: orderId,
       product_id: item.id,
       quantity: item.selectedQty,
       price: item.price,
-      total_price: item.price * item.selectedQty
+      total_price: item.price * item.selectedQty,
     }));
 
     const { error: itemsError } = await supabase.from('order_items').insert(orderItems);
@@ -50,9 +57,11 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ orderId });
-
   } catch (err: unknown) {
     console.error('Checkout error:', err);
-    return NextResponse.json({ error: err.message || 'Checkout failed' }, { status: 500 });
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : 'Checkout failed' },
+      { status: 500 }
+    );
   }
 }
