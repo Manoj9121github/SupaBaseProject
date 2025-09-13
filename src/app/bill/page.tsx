@@ -3,14 +3,22 @@ import React, { useState } from "react";
 import { useCart } from "@/app/context/CartContext";
 import Link from "next/link";
 
+// define a type for cart items
+interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  selectedQty: number;
+}
+
 export default function BillPage() {
   const { cart, clearCart } = useCart();
   const TAX_RATE = 0.11; // 11% tax
-  const [loading, setLoading] = useState(false); // loader state
+  const [loading, setLoading] = useState(false);
 
+  // type the cart correctly
   const subtotal = cart.reduce(
-    (acc: number, item: { price: number; selectedQty: number }) =>
-      acc + item.price * item.selectedQty,
+    (acc: number, item: CartItem) => acc + item.price * item.selectedQty,
     0
   );
   const taxAmount = subtotal * TAX_RATE;
@@ -19,7 +27,7 @@ export default function BillPage() {
   const handleCheckout = async () => {
     if (cart.length === 0) return;
 
-    setLoading(true); // start loader
+    setLoading(true);
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -32,17 +40,16 @@ export default function BillPage() {
 
       alert(`Checkout successful! Order ID: ${data.orderId}`);
       clearCart();
-    } catch (err: unknown) {
+    } catch (err) {
       console.error("Checkout error:", err);
 
-      // ✅ Safely handle unknown error
       if (err instanceof Error) {
         alert(err.message);
       } else {
         alert("Checkout failed");
       }
     } finally {
-      setLoading(false); // stop loader
+      setLoading(false);
     }
   };
 
@@ -57,7 +64,7 @@ export default function BillPage() {
         <p className="text-center text-gray-500">Your cart is empty.</p>
       ) : (
         <div className="space-y-4 bg-white p-6 rounded-xl shadow-md max-w-md mx-auto">
-          {cart.map((item: any) => (
+          {cart.map((item: CartItem) => (
             <div key={item.id} className="flex justify-between">
               <span>
                 {item.name} x {item.selectedQty}
