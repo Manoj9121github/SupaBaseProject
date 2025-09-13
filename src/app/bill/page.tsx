@@ -9,7 +9,8 @@ export default function BillPage() {
   const [loading, setLoading] = useState(false); // loader state
 
   const subtotal = cart.reduce(
-    (acc, item) => acc + item.price * item.selectedQty,
+    (acc: number, item: { price: number; selectedQty: number }) =>
+      acc + item.price * item.selectedQty,
     0
   );
   const taxAmount = subtotal * TAX_RATE;
@@ -33,7 +34,13 @@ export default function BillPage() {
       clearCart();
     } catch (err: unknown) {
       console.error("Checkout error:", err);
-      alert(err.message || "Checkout failed");
+
+      // ✅ Safely handle unknown error
+      if (err instanceof Error) {
+        alert(err.message);
+      } else {
+        alert("Checkout failed");
+      }
     } finally {
       setLoading(false); // stop loader
     }
@@ -50,7 +57,7 @@ export default function BillPage() {
         <p className="text-center text-gray-500">Your cart is empty.</p>
       ) : (
         <div className="space-y-4 bg-white p-6 rounded-xl shadow-md max-w-md mx-auto">
-          {cart.map((item) => (
+          {cart.map((item: any) => (
             <div key={item.id} className="flex justify-between">
               <span>
                 {item.name} x {item.selectedQty}
@@ -74,7 +81,7 @@ export default function BillPage() {
 
           <button
             onClick={handleCheckout}
-            disabled={loading} // disable button while loading
+            disabled={loading}
             className={`mt-4 w-full py-2 rounded transition ${
               loading
                 ? "bg-gray-400 cursor-not-allowed"
