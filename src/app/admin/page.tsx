@@ -46,7 +46,7 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-pink-50 flex items-center justify-center px-4">
       <Link href="/" className="mb-6 text-blue-600 self-start ml-4">← Back to Home</Link>
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-lg">
         <div className="flex items-center gap-2 mb-6">

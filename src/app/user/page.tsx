@@ -40,7 +40,7 @@ export default function UserPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center  bg-gradient-to-br from-green-50 via-blue-50 to-pink-50">
         <div className="text-center">
           <div className="loader mb-4"></div>
           <p className="text-gray-500">Loading products...</p>

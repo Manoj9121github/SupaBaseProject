@@ -5,8 +5,8 @@ import Image from 'next/image';
 
 export default function Dashboard() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
-      <h1 className="text-3xl md:text-4xl font-bold mb-10 text-gray-800">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-green-50 via-blue-50 to-pink-50 ">
+      <h1 className="text-3xl md:text-4xl font-bold mb-10 text-gray-800 text-center">
         Dashboard
       </h1>
 
@@ -14,7 +14,7 @@ export default function Dashboard() {
         {/* User Card */}
         <Link
           href="/user"
-          className="flex flex-col items-center p-6 bg-white shadow-lg rounded-xl transform hover:scale-105 transition duration-300 w-48"
+          className="flex flex-col items-center p-6 bg-white rounded-2xl shadow-xl transform hover:scale-105 hover:shadow-2xl transition duration-300 w-48"
         >
           <Image
             src="/images/user.png"
@@ -29,7 +29,7 @@ export default function Dashboard() {
         {/* Admin Card */}
         <Link
           href="/admin"
-          className="flex flex-col items-center p-6 bg-white shadow-lg rounded-xl transform hover:scale-105 transition duration-300 w-48"
+          className="flex flex-col items-center p-6 bg-white rounded-2xl shadow-xl transform hover:scale-105 hover:shadow-2xl transition duration-300 w-48"
         >
           <Image
             src="/images/admin.jpg"

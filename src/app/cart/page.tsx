@@ -12,7 +12,7 @@ export default function CartPage() {
   const total = subtotal + tax;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-pink-50 p-6">
       <Link href="/user" className="mb-6 text-blue-600">← Back </Link>
       <h1 className="text-3xl font-bold text-center mb-10">Your Cart</h1>
 
