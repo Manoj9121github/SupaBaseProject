@@ -24,7 +24,7 @@ export default function UserPage() {
       setIsLoading(true); // start loader
       const { data, error } = await supabase.from('products').select('*');
       if (!error && data) {
-        const prods = (data as any[]).map(p => ({
+        const prods = (data as unknown[]).map(p => ({
           id: p.id,
           name: p.name,
           price: p.price,

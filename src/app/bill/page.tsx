@@ -31,7 +31,7 @@ export default function BillPage() {
 
       alert(`Checkout successful! Order ID: ${data.orderId}`);
       clearCart();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Checkout error:", err);
       alert(err.message || "Checkout failed");
     } finally {

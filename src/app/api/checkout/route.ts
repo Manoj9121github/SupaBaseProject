@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ orderId });
 
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Checkout error:', err);
     return NextResponse.json({ error: err.message || 'Checkout failed' }, { status: 500 });
   }
