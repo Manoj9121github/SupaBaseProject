@@ -1,5 +1,5 @@
 // /api/add-product/route.ts
-import { supabaseAdmin } from '@/app/lib/supabaseAdmin';
+import { supabaseAdmin } from '@/app/lib/SupaBaseAdmins';
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
